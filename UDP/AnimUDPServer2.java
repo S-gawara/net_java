@@ -1,7 +1,7 @@
 import java.io.*;
 import java.net.*;
 
-public class AnimUDPServer2 {
+public class AnimUDPServer1 {
 	public static void main(String args[]){
 		try{
 			BufferedInputStream biStream;
@@ -9,13 +9,6 @@ public class AnimUDPServer2 {
 			InetAddress clientAddress; // クライアントの IP アドレス
 			int clientPort; // クライアントのポート番号
 			int sleeptime =  Integer.parseInt(args[0]);
-			String filename = null;
-
-			if (args[1].length() < 0){
-				filename = "bane.raw";
-			} else {
-				filename = args[1];
-			}
 
 			// 送信用 DatagramPacket
 			byte buf[] = new byte[160*120];
@@ -40,12 +33,13 @@ public class AnimUDPServer2 {
 				sendPacket.setPort(clientPort);
 				sendPacket.setLength(160*120);
 
-				biStream = new BufferedInputStream(new FileInputStream(filename));
+				biStream = new BufferedInputStream(new FileInputStream("bane.raw"));
 
 				for(int i = 0; i <= 200; i++){ // "<="に注意
 					biStream.read(buf, 0, 160*120); // ファイルから読み込み
 					socket.send(sendPacket); // クライアントに送信
 					socket.receive(receivePacket);
+
 				}
 				biStream.close();
 			}
